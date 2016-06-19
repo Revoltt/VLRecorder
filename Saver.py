@@ -23,7 +23,7 @@ while True:
     sleep(0.5)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
-    sleep(4.5)
+    sleep(7.5)
            
     # the player can be placed not in the usual spot. then we need to press one more button
     # This check is BAD
@@ -84,7 +84,8 @@ while True:
         
     # wait till the lecture is nearly over
     sleep(5400) # average lecture length - 1.5 hours
-    end =  False # lecture finish flag
+    end_1 =  False # lecture finish flag
+    end_2 = False
     # check every 2 minutes if the lecture is over
     while True:
         img = ImageGrab.grab()
@@ -94,21 +95,45 @@ while True:
         y = 100
         pixel = img.getpixel((x, y))
         #print pixel
-        end = (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
           
         x = 1300
         y = 650
         pixel = img.getpixel((x, y))
         #print pixel
-        end = end & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
               
         x = 1300
         y = 600
         pixel = img.getpixel((x, y))
         #print pixel
-        end = end & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        
+        x = 1050
+        y = 50
+        pixel = img.getpixel((x, y))
+        #print pixel
+        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        
+        x = 700
+        y = 50
+        pixel = img.getpixel((x, y))
+        #print pixel
+        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
           
-        if end:
+        x = 240
+        y = 170
+        pixel = img.getpixel((x, y))
+        #print pixel
+        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        
+        if end_1 | end_2:
             print "done"
             break
         else:
