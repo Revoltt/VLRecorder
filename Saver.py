@@ -48,8 +48,8 @@ while True:
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     sleep(2.5)
     # second time? not quite understood why it is needed
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+    #win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    #win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
         
     # make sure the recording starts from the beginning of the lecture
     # for some reason this pauses the player
@@ -75,17 +75,18 @@ while True:
     sleep(0.5)
     
     # start the player again
-    x = 440
-    y = 400
-    win32api.SetCursorPos((x,y))
-    sleep(0.5)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+#     x = 440
+#     y = 400
+#     win32api.SetCursorPos((x,y))
+#     sleep(0.5)
+#     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+#     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
         
     # wait till the lecture is nearly over
     sleep(5400) # average lecture length - 1.5 hours
     end_1 =  False # lecture finish flag
     end_2 = False
+    end_3 = False
     # check every 2 minutes if the lecture is over
     while True:
         img = ImageGrab.grab()
@@ -95,45 +96,59 @@ while True:
         y = 100
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
           
         x = 1300
         y = 650
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
               
         x = 1300
         y = 600
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
         
         x = 1050
         y = 50
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
+        
+        x = 700
+        y = 10
+        pixel = img.getpixel((x, y))
+        #print pixel
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
+        end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         
         x = 700
         y = 50
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
           
         x = 240
         y = 170
         pixel = img.getpixel((x, y))
         #print pixel
-        end_1 = end_1 & (pixel[0] == 244) & (pixel[1] == 99) & (pixel[2] == 33)
+        end_1 = end_1 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         end_2 = end_2 & (pixel[0] <= 5) & (pixel[1] <= 5) & (pixel[2] <= 5)
+        end_3 = end_3 & (pixel[0] >= 240) & (pixel[1] >= 95) & (pixel[2] >= 30)
         
-        if end_1 | end_2:
+        if end_1 | end_2 | end_3:
             print "done"
             break
         else:
