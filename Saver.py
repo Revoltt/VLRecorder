@@ -22,6 +22,7 @@ while True:
     win32api.SetCursorPos((x,y))
     sleep(0.5)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    sleep(0.05)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     sleep(7.5)
            
@@ -37,6 +38,7 @@ while True:
         win32api.SetCursorPos((x,y))
         sleep(0.5)
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+        sleep(0.05)
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
          
     # press play button in the player
@@ -45,6 +47,7 @@ while True:
     win32api.SetCursorPos((x,y))
     sleep(0.5)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    sleep(0.05)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     sleep(2.5)
     # second time? not quite understood why it is needed
@@ -57,6 +60,7 @@ while True:
     y = 665
     win32api.SetCursorPos((x,y))
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    sleep(0.05)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     sleep(1.5)
         
@@ -66,6 +70,7 @@ while True:
     win32api.SetCursorPos((x,y))
     sleep(0.5)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    sleep(0.05)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     
     # start recording
@@ -83,11 +88,13 @@ while True:
 #     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
         
     # wait till the lecture is nearly over
+    #sleep(15) 
     sleep(5400) # average lecture length - 1.5 hours
     end_1 =  False # lecture finish flag
     end_2 = False
     end_3 = False
     # check every 2 minutes if the lecture is over
+    time = 180 # time between lecture ending checks gets smaller after each check
     while True:
         img = ImageGrab.grab()
         #check certain image pixels
@@ -153,12 +160,13 @@ while True:
             break
         else:
             print "not yet"
-            sleep(180)
+            sleep(max(60, 180 - time))
+            time = time - 2
     # stop the recording
     sleep(0.5)
     win32api.keybd_event(start,0,0,0) # holds the "=" key down
     win32api.keybd_event(start,0,win32con.KEYEVENTF_KEYUP,0)
-    sleep(0.5)
+    sleep(2)
      
     # close the tab (for google chrome)
     win32api.keybd_event(close_1,0,0,0) # holds the "left-Ctrl" key down
@@ -167,22 +175,41 @@ while True:
     win32api.keybd_event(close_1,0,win32con.KEYEVENTF_KEYUP,0)
     win32api.keybd_event(close_2,0,win32con.KEYEVENTF_KEYUP,0)
     sleep(2)
-    #switch to the next lecture
+    # switch to the next lecture
+    # new check
     x = 420
-    y = 300
+    y = 350
     img = ImageGrab.grab()
-    if img.getpixel((x, y)) == (231, 238, 241):
-        #option 1 - lectures up to 24
-        y = y + 70
-        win32api.SetCursorPos((x,y))
-        sleep(0.5)
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
-    else:
-        #option 2 - lectures 25-30
-        k = k + 1
-        y = y + 65 * (k + 1) - 15
-        win32api.SetCursorPos((x,y))
-        sleep(0.5)
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+    while img.getpixel((x, y)) != (231, 238, 241):
+        y = y + 63 # 63 is approximate size of lecture rectangle
+    y = y + 63
+    if y > 768:
+        break
+    win32api.SetCursorPos((x,y))
+    sleep(0.5)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    sleep(0.05)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+#     # old check
+#     x = 420
+#     y = 300
+#     img = ImageGrab.grab()
+#     if img.getpixel((x, y)) == (231, 238, 241):
+#         #option 1 - lectures up to 24
+#         y = y + 70
+#         win32api.SetCursorPos((x,y))
+#         sleep(0.5)
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+#         sleep(0.05)
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+#     else:
+#         #option 2 - lectures 25-30
+#         k = k + 1
+#         y = y + 65 * (k + 1) - 15
+#         win32api.SetCursorPos((x,y))
+#         sleep(0.5)
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+#         sleep(0.05)
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+    print x, y
+    sleep(0.5)
